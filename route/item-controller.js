@@ -1,4 +1,4 @@
-const {getItems, getItem, addItem, removeItem, updateItem} = require('../controllers/item')
+const {getItems, getItem, addItem, removeItem, updateItem} = require('../handler/item')
 
 const item = {
     type: 'object',
@@ -64,24 +64,19 @@ const postItemOpts = {
 // }
 
 function itemRoutes(app, options, done){
-    app.get('/', (req,res) => {
-        res.send({
-            Ganja:'Sehat!'
-        })
-    })
-    app.get('/item',getItemsOpts, (req,res) => {
+    app.get('/',getItemsOpts, (req,res) => {
         getItems(req,res)
     })
-    app.get('/item/:id',getItemOpts, (req,res) => {
+    app.get('/:id',getItemOpts, (req,res) => {
         getItem(req,res)
     })
-    app.post('/item', postItemOpts,(req, res) => {
+    app.post('/', postItemOpts,(req, res) => {
         addItem(req, res)
     })
-    app.delete('/item/:id', getItemsOpts,(req, res) => {
+    app.delete('/:id', getItemsOpts,(req, res) => {
         removeItem(req, res)
     })
-    app.put('/item/:id', getItemsOpts,(req, res) => {
+    app.put('/:id', getItemsOpts,(req, res) => {
         updateItem(req, res)
     })
     done()

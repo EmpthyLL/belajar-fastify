@@ -1,7 +1,7 @@
 const fastify = require('fastify')
 const mysql = require('@fastify/mysql')
-const {bookController} = require('./books-controller')
-const {itemRoutes} = require('./route/item')
+const {bookController} = require('./route/books-controller')
+const {itemRoutes} = require('./route/item-controller')
 const app = fastify({logger:true})
 const port = 3000
 
@@ -14,7 +14,13 @@ app.register(mysql,{
 })
 
 app.register(bookController,{prefix: '/books'})
-app.register(itemRoutes)
+app.register(itemRoutes, {prefix:'/items'})
+
+app.get('/', (req,res) => {
+  res.send({
+      Ganja:'Sehat!'
+  })
+})
 
 const start = async () => {
   try {
