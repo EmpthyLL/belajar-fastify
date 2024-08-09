@@ -1,16 +1,19 @@
-const {items} = require('../item')
+const {getItems, getItem, addItem, removeItem, updateItem} = require('../controllers/item')
+
+const item = {
+    type: 'object',
+    properties: {
+        id:{type:'string'},
+        name:{type:'string'},
+    }
+}
+
 const getItemsOpts = {
     schema: {
         response:{
             200:{
                 type: 'array',
-                items: {
-                    type: 'object',
-                    properties: {
-                        id:{type:'integer'},
-                        name:{type:'string'},
-                    }
-                }
+                items:item
             }
         }
     }
@@ -19,32 +22,68 @@ const getItemsOpts = {
 const getItemOpts = {
     schema: {
         response:{
-            200:{
-                type: 'object',
-                properties: {
-                    id:{type:'integer'},
-                    name:{type:'string'},
-                }
+            200:item,
+        }
+    }
+}
+
+const postItemOpts = {
+    schema: {
+        body:{
+            type: 'object',
+            required: ['name'],
+            properties:{
+                name:{type:'string'}
+            }
+        },
+        response:{
+            201:{
+                type: 'array',
+                items:item
             }
         }
     }
 }
 
-function itemRoutes(app, options, done){
+// const deleteItemOpts = {
+//     schema: {
+//         body:{
+//             type: 'object',
+//             required: ['name'],
+//             properties:{
+//                 name:{type:'string'}
+//             }
+//         },
+//         response:{
+//             200:{
+//                 type: 'array',
+//                 items:item
+//             }
+//         }
+//     }
+// }
 
+function itemRoutes(app, options, done){
     app.get('/', (req,res) => {
         res.send({
             Ganja:'Sehat!'
         })
     })
     app.get('/item',getItemsOpts, (req,res) => {
-        res.send(items)
+        getItems(req,res)
     })
     app.get('/item/:id',getItemOpts, (req,res) => {
-        const key = Number(req.params.id)
-        res.send(items.find(item => item.id === key))
+        getItem(req,res)
     })
-
+    app.post('/item', postItemOpts,(req, res) => {
+        addItem(req, res)
+    })
+    app.delete('/item/:id', getItemsOpts,(req, res) => {
+        removeItem(req, res)
+    })
+    app.put('/item/:id', getItemsOpts,(req, res) => {
+        updateItem(req, res)
+    })
     done()
 }
 
