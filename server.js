@@ -1,4 +1,5 @@
-const config = require('./config/app')
+const appConfig = require('./config/app')
+const DBConfig = require('./config/database')
 
 const logger = {
   development: {
@@ -19,21 +20,14 @@ const mysql = require('@fastify/mysql')
 const {bookController} = require('./route/books-controller')
 const {itemRoutes} = require('./route/item-controller')
 const {userManager} = require('./route/user-controller')
-const app = fastify({logger:logger[config.appMode]})
-const port = config.appPort
+const app = fastify({logger:logger[appConfig.appMode]})
+const port = appConfig.appPort
 
-// app.register(mysql,{
-//   host:'localhost',
-//   port:3307,
-//   user:'root',
-//   password:'LU0l#angKUL4NGajarYA',
-//   database:'bookstore',
-//   promise: true
-// })
 app.register(mysql,{
-  host:'localhost',
-  user:'root',
-  password:'k@k1KUk0kK4KU',
+  host:DBConfig.connection.host,
+  port:DBConfig.port,
+  user:DBConfig.connection.user,
+  password:DBConfig.connection.password,
   database:'bookstore',
   promise: true
 })
