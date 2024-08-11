@@ -23,6 +23,7 @@ const {userManager} = require('./route/user-controller')
 const app = fastify({logger:logger[appConfig.appMode]})
 const port = appConfig.appPort
 
+
 app.register(mysql,{
   host:DBConfig.connection.host,
   port:DBConfig.port,
