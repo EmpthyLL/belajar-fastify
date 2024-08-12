@@ -10,6 +10,6 @@ const alias = {
 
 module.exports = {
     appMode:alias[process.env.NODE_ENV] || 'dev',
-    appHost:alias[process.env.APP_HOST] || 'localhost',
-    appPort:alias[process.env.APP_PORT] || 3000,
+    appHost:process.env.APP_HOST || 'localhost',
+    appPort:process.env.APP_PORT || 3000,
 }
