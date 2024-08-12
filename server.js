@@ -17,12 +17,12 @@ const logger = {
 
 const fastify = require('fastify')
 const mysql = require('@fastify/mysql')
+const auth = require('./auth/auth')
 const {bookController} = require('./route/books-controller')
 const {itemRoutes} = require('./route/item-controller')
 const {userManager} = require('./route/user-controller')
 const app = fastify({logger:logger[appConfig.appMode]})
 const port = appConfig.appPort
-
 
 app.register(mysql,{
   host:DBConfig.connection.host,
@@ -36,6 +36,8 @@ app.register(mysql,{
 app.register(bookController,{prefix: '/books'})
 app.register(itemRoutes, {prefix:'/items'})
 app.register(userManager, {prefix:'/users'})
+
+app.addHook("preHandler", auth)
 
 app.get('/', (req,res) => {
   res.send({
